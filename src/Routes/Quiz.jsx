@@ -41,11 +41,32 @@ const Quiz = () => {
     getQuizQuestions();
   }, []);
 
-  return (
-    <div>
-      <h1>Quiz</h1>
-    </div>
-  );
+  const questionsElements = questions.map((question, index) => {
+    return (
+      <div className="questionsSection">
+        <div key={index} className="singleQuestion">
+          <h2>{question.question}</h2>
+          <div className="choices">
+            {question.choices.map((choice) => {
+              return (
+                <>
+                  <input
+                    type="radio"
+                    id={choice}
+                    value={choice}
+                    className="radio-button"
+                  />
+                  <label htmlFor={choice}>{choice}</label>
+                </>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  });
+
+  return <div>{questionsElements}</div>;
 };
 
 export default Quiz;
