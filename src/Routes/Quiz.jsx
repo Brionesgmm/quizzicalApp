@@ -37,6 +37,10 @@ const Quiz = () => {
     }
   }
 
+  function showvalue(value) {
+    console.log(value);
+  }
+
   useEffect(() => {
     getQuizQuestions();
   }, []);
@@ -50,13 +54,16 @@ const Quiz = () => {
             {question.choices.map((choice) => {
               return (
                 <>
-                  <input
-                    type="radio"
-                    id={choice}
-                    value={choice}
-                    className="radio-button"
-                  />
-                  <label htmlFor={choice}>{choice}</label>
+                  <label htmlFor={choice} className="radio-button">
+                    {choice}
+                    <input
+                      type="radio"
+                      id={choice}
+                      value={choice}
+                      className="radio-button"
+                      onChange={(e) => showvalue(e.target.value)}
+                    />
+                  </label>
                 </>
               );
             })}

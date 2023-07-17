@@ -33,3 +33,11 @@ body {
   border-radius: 5px;
   border: 1px solid black;
 }
+
+.radio-button {
+  border: 1px red solid;
+}
+
+.radio-button input {
+  display: none;
+}
