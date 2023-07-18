@@ -47,7 +47,7 @@ const Quiz = () => {
 
   const questionsElements = questions.map((question, index) => {
     return (
-      <div className="questionsSection">
+      <div>
         <div key={index} className="singleQuestion">
           <h2>{question.question}</h2>
           <div className="choices">
@@ -59,6 +59,7 @@ const Quiz = () => {
                     <input
                       type="radio"
                       id={choice}
+                      name={`question_${index}`}
                       value={choice}
                       className="radio-button"
                       onChange={(e) => showvalue(e.target.value)}
@@ -73,7 +74,7 @@ const Quiz = () => {
     );
   });
 
-  return <div>{questionsElements}</div>;
+  return <div className="questionsSection">{questionsElements}</div>;
 };
 
 export default Quiz;
