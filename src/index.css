@@ -21,7 +21,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 10rem;
   border-radius: 5px;
 }
@@ -56,6 +56,12 @@ body {
 
 .radio-button input {
   display: none;
+}
+
+.picked,
+.radio-button.picked:hover {
+  background-color: #d6dbf5;
+  border: none;
 }
 
 .singleQuestion {

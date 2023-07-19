@@ -1,9 +1,10 @@
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { decode } from "html-entities";
 import { Link } from "react-router-dom";
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
+  const [answers, setAnswers] = useState([]);
 
   async function getQuizQuestions() {
     try {
@@ -15,8 +16,8 @@ const Quiz = () => {
       }
       const data = await response.json();
       const decodedQuestions = data.results.map((question) => {
-        const incorrectAnswers = [...question["incorrect_answers"]];
-        const correctAnswer = question["correct_answer"];
+        const incorrectAnswers = [...question.incorrect_answers];
+        const correctAnswer = question.correct_answer;
 
         const randomIndex = Math.floor(
           Math.random() * (incorrectAnswers.length + 1)
@@ -29,16 +30,34 @@ const Quiz = () => {
           choices: incorrectAnswers,
         };
       });
-      console.log(data.results);
       setQuestions(decodedQuestions);
-      console.log(decodedQuestions);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
-  function showvalue(value) {
-    console.log(value);
+  function storeAnswers(question, value) {
+    setAnswers((prev) => {
+      const existingAnswerIndex = prev.findIndex(
+        (answer) => answer.question === question
+      );
+
+      if (existingAnswerIndex !== -1) {
+        // Update the existing answer
+        const updatedAnswers = [...prev];
+        updatedAnswers[existingAnswerIndex].answer = value;
+        return updatedAnswers;
+      } else {
+        // Add a new answer
+        return [
+          ...prev,
+          {
+            question: question,
+            answer: value,
+          },
+        ];
+      }
+    });
   }
 
   useEffect(() => {
@@ -47,25 +66,36 @@ const Quiz = () => {
 
   const questionsElements = questions.map((question, index) => {
     return (
-      <div>
-        <div key={index} className="singleQuestion">
+      <div key={index}>
+        <div className="singleQuestion">
           <h2>{question.question}</h2>
           <div className="choices">
-            {question.choices.map((choice) => {
+            {question.choices.map((choice, aIndex) => {
+              const answerIndex = answers.findIndex(
+                (answer) => answer.question === question.question
+              );
+              const isPicked =
+                answerIndex !== -1 && answers[answerIndex].answer === choice;
+
               return (
-                <>
-                  <label htmlFor={choice} className="radio-button">
-                    {choice}
+                <div key={aIndex}>
+                  <label
+                    htmlFor={decode(choice)}
+                    className={`radio-button ${isPicked ? "picked" : ""}`}
+                  >
+                    {decode(choice)}
                     <input
                       type="radio"
-                      id={choice}
+                      id={decode(choice)}
                       name={`question_${index}`}
-                      value={choice}
+                      value={decode(choice)}
                       className="radio-button"
-                      onChange={(e) => showvalue(e.target.value)}
+                      onChange={(e) =>
+                        storeAnswers(question.question, e.target.value)
+                      }
                     />
                   </label>
-                </>
+                </div>
               );
             })}
           </div>
@@ -73,6 +103,8 @@ const Quiz = () => {
       </div>
     );
   });
+
+  console.log(answers);
 
   return <div className="questionsSection">{questionsElements}</div>;
 };
