@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
+  const [hasUnansweredQuestions, setHasUnansweredQuestions] = useState(false);
 
   async function getQuizQuestions() {
     try {
@@ -64,6 +65,13 @@ const Quiz = () => {
     getQuizQuestions();
   }, []);
 
+  const handleQuizFinish = (e) => {
+    if (answers.length !== questions.length) {
+      e.preventDefault();
+      setHasUnansweredQuestions(true);
+    }
+  };
+
   const questionsElements = questions.map((question, index) => {
     return (
       <div key={index}>
@@ -106,7 +114,19 @@ const Quiz = () => {
 
   console.log(answers);
 
-  return <div className="questionsSection">{questionsElements}</div>;
+  return (
+    <div className="questionsSection">
+      {questionsElements}
+      {hasUnansweredQuestions && (
+        <p className="submitMsg">
+          Please answer all questions before submitting.
+        </p>
+      )}
+      <Link className="finishQuiz" to="/results" onClick={handleQuizFinish}>
+        <button className="startBtn">Finish Quiz</button>
+      </Link>
+    </div>
+  );
 };
 
 export default Quiz;
