@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { decode } from "html-entities";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [hasUnansweredQuestions, setHasUnansweredQuestions] = useState(false);
+  const navigate = useNavigate();
+  console.log(navigate);
 
   async function getQuizQuestions() {
     try {
@@ -66,7 +68,12 @@ const Quiz = () => {
   }, []);
 
   const handleQuizFinish = (e) => {
-    if (answers.length !== questions.length) {
+    if (answers.length === questions.length) {
+      setHasUnansweredQuestions(false);
+      navigate("/results", {
+        state: { answers: answers, questions: questions },
+      });
+    } else {
       e.preventDefault();
       setHasUnansweredQuestions(true);
     }
@@ -122,9 +129,9 @@ const Quiz = () => {
           Please answer all questions before submitting.
         </p>
       )}
-      <Link className="finishQuiz" to="/results" onClick={handleQuizFinish}>
-        <button className="startBtn">Finish Quiz</button>
-      </Link>
+      <button className="startBtn finishQuiz" onClick={handleQuizFinish}>
+        Finish Quiz
+      </button>
     </div>
   );
 };
