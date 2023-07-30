@@ -34,32 +34,19 @@ const Quiz = () => {
         };
       });
       setQuestions(decodedQuestions);
+      setAnswers(new Array(decodedQuestions.length).fill({}));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
   function storeAnswers(question, value) {
-    setAnswers((prev) => {
-      const existingAnswerIndex = prev.findIndex(
-        (answer) => answer.question === question
-      );
+    // Find the index of the question in the questions array
+    const questionIndex = questions.findIndex((q) => q.question === question);
 
-      if (existingAnswerIndex !== -1) {
-        // Update the existing answer
-        const updatedAnswers = [...prev];
-        updatedAnswers[existingAnswerIndex].answer = value;
-        return updatedAnswers;
-      } else {
-        // Add a new answer
-        return [
-          ...prev,
-          {
-            question: question,
-            answer: value,
-          },
-        ];
-      }
+    setAnswers((prev) => {
+      const existingAnswer = { ...prev[questionIndex], answer: value };
+      return Object.assign([], prev, { [questionIndex]: existingAnswer });
     });
   }
 
@@ -68,7 +55,7 @@ const Quiz = () => {
   }, []);
 
   const handleQuizFinish = (e) => {
-    if (answers.length === questions.length) {
+    if (!answers.some((answer) => answer.answer === undefined)) {
       setHasUnansweredQuestions(false);
       navigate("/results", {
         state: { answers: answers, questions: questions },
@@ -86,11 +73,8 @@ const Quiz = () => {
           <h2>{question.question}</h2>
           <div className="choices">
             {question.choices.map((choice, aIndex) => {
-              const answerIndex = answers.findIndex(
-                (answer) => answer.question === question.question
-              );
               const isPicked =
-                answerIndex !== -1 && answers[answerIndex].answer === choice;
+                answers[index] && answers[index].answer === choice;
 
               return (
                 <div key={aIndex}>

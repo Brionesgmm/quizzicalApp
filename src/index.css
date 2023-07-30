@@ -15,7 +15,8 @@ body {
 }
 
 .startSection,
-.questionsSection {
+.questionsSection,
+.resultSection {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -26,7 +27,8 @@ body {
   border-radius: 5px;
 }
 
-.questionsSection {
+.questionsSection,
+.resultSection {
   padding: 1rem;
   text-align: left;
   align-items: flex-start;
@@ -80,4 +82,24 @@ body {
 .submitMsg {
   align-self: center;
   margin-top: 1rem;
+}
+
+.correct,
+.radio-button.correct:hover {
+  background-color: #94d7a2;
+  border: none;
+}
+
+.incorrect,
+.radio-button.incorrect:hover {
+  background-color: #f8bcbc;
+  border: none;
+  color: #29326473;
+}
+
+.notPicked,
+.radio-button.notPicked:hover {
+  color: #29326473;
+  border: #2932647a 2px solid;
+  background-color: transparent !important;
 }
