@@ -78,8 +78,15 @@ body {
   align-items: flex-start;
 }
 
+.nextQuizBtn {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .finishQuiz,
-.submitMsg {
+.submitMsg,
+.newQuiz {
   align-self: center;
   margin-top: 1rem;
 }

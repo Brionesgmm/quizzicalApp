@@ -47,8 +47,8 @@ const Results = () => {
   return (
     <div className="resultSection">
       {resultElements}
-      <Link to="/">
-        <button>Start New Quiz</button>
+      <Link to="/" className="nextQuizBtn">
+        <button className="startBtn newQuiz">Start New Quiz</button>
       </Link>
     </div>
   );
