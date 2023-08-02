@@ -7,7 +7,6 @@ const Quiz = () => {
   const [answers, setAnswers] = useState([]);
   const [hasUnansweredQuestions, setHasUnansweredQuestions] = useState(false);
   const navigate = useNavigate();
-  console.log(navigate);
 
   async function getQuizQuestions() {
     try {
@@ -53,6 +52,7 @@ const Quiz = () => {
   useEffect(() => {
     getQuizQuestions();
   }, []);
+  console.log(answers);
 
   const handleQuizFinish = (e) => {
     if (!answers.some((answer) => answer.answer === undefined)) {
@@ -74,7 +74,7 @@ const Quiz = () => {
           <div className="choices">
             {question.choices.map((choice, aIndex) => {
               const isPicked =
-                answers[index] && answers[index].answer === choice;
+                answers[index] && answers[index].answer === decode(choice);
 
               return (
                 <div key={aIndex}>

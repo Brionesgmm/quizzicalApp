@@ -20,7 +20,8 @@ const Results = () => {
                   <label
                     htmlFor={choice}
                     className={`radio-button ${
-                      answers[index].answer === choice
+                      answers[index].answer === choice ||
+                      question.correct_answer === choice
                         ? question.correct_answer === choice
                           ? "correct"
                           : "incorrect"
