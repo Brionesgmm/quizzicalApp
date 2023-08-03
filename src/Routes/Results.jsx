@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
+import { decode } from "html-entities";
 
 const Results = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const Results = () => {
                   <label
                     htmlFor={choice}
                     className={`radio-button ${
-                      answers[index].answer === choice ||
+                      answers[index].answer === decode(choice) ||
                       question.correct_answer === choice
                         ? question.correct_answer === choice
                           ? "correct"
@@ -28,7 +29,7 @@ const Results = () => {
                         : "notPicked"
                     }`}
                   >
-                    {choice}
+                    {decode(choice)}
                     <input
                       type="radio"
                       id={choice}
